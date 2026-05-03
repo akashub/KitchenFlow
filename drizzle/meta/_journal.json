@@ -8,6 +8,13 @@
       "when": 1777850069267,
       "tag": "0000_petite_hellion",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1777851143562,
+      "tag": "0001_dashing_warbound",
+      "breakpoints": true
     }
   ]
 }
