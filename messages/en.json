@@ -1,0 +1,52 @@
+{
+  "common": {
+    "appName": "KitchenFlow",
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "search": "Search",
+    "back": "Back",
+    "confirm": "Confirm",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "recipes": "Recipes",
+    "menu": "Menu Planning",
+    "kitchen": "Kitchen",
+    "clients": "Clients",
+    "settings": "Settings"
+  },
+  "auth": {
+    "login": "Log In",
+    "logout": "Log Out",
+    "email": "Email",
+    "password": "Password",
+    "pin": "PIN",
+    "emailLogin": "Email & Password",
+    "pinLogin": "PIN Login",
+    "loginFailed": "Invalid credentials. Please try again.",
+    "enterPin": "Enter your PIN"
+  },
+  "shifts": {
+    "shift_4am": "4 AM — Breakfast",
+    "shift_6am": "6 AM — Lunch",
+    "shift_6pm": "6 PM — Dinner"
+  },
+  "status": {
+    "not_started": "Not Started",
+    "prepping": "Prepping",
+    "cooking": "Cooking",
+    "done": "Done"
+  },
+  "roles": {
+    "owner": "Owner",
+    "head_chef": "Head Chef",
+    "supervisor": "Supervisor",
+    "worker": "Worker"
+  }
+}

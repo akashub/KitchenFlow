@@ -1,0 +1,52 @@
+{
+  "common": {
+    "appName": "KitchenFlow",
+    "loading": "लोड हो रहा है...",
+    "save": "सहेजें",
+    "cancel": "रद्द करें",
+    "delete": "हटाएं",
+    "edit": "संपादित करें",
+    "add": "जोड़ें",
+    "search": "खोजें",
+    "back": "वापस",
+    "confirm": "पुष्टि करें",
+    "yes": "हाँ",
+    "no": "नहीं"
+  },
+  "nav": {
+    "dashboard": "डैशबोर्ड",
+    "recipes": "रेसिपी",
+    "menu": "मेन्यू योजना",
+    "kitchen": "रसोई",
+    "clients": "ग्राहक",
+    "settings": "सेटिंग्स"
+  },
+  "auth": {
+    "login": "लॉग इन",
+    "logout": "लॉग आउट",
+    "email": "ईमेल",
+    "password": "पासवर्ड",
+    "pin": "पिन",
+    "emailLogin": "ईमेल और पासवर्ड",
+    "pinLogin": "पिन लॉगिन",
+    "loginFailed": "गलत जानकारी। कृपया पुनः प्रयास करें।",
+    "enterPin": "अपना पिन दर्ज करें"
+  },
+  "shifts": {
+    "shift_4am": "सुबह 4 बजे — नाश्ता",
+    "shift_6am": "सुबह 6 बजे — दोपहर का खाना",
+    "shift_6pm": "शाम 6 बजे — रात का खाना"
+  },
+  "status": {
+    "not_started": "शुरू नहीं हुआ",
+    "prepping": "तैयारी",
+    "cooking": "पक रहा है",
+    "done": "हो गया"
+  },
+  "roles": {
+    "owner": "मालिक",
+    "head_chef": "मुख्य रसोइया",
+    "supervisor": "सुपरवाइज़र",
+    "worker": "कर्मचारी"
+  }
+}
