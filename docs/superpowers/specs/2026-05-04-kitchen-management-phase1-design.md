@@ -55,7 +55,9 @@ Internet and electricity are unreliable in India. The kitchen station runs as a 
 - Every morning (when connectivity is available), the system pulls down the day's plan and caches it. After that, the kitchen runs independently even if internet drops for the entire day.
 - After a power cut, data persists in IndexedDB. Workers reopen the browser and pick up where they left off.
 
-**Online-only features:** Owner's remote dashboard, client management, new recipe uploads, menu planning. These are admin tasks done when connectivity is available.
+**Online-only features:** Owner's remote dashboard, client management, new recipe uploads. These are admin tasks done when connectivity is available.
+
+**Offline menu planning:** The head chef can create/edit today's menu directly on the kitchen station when offline (stored in IndexedDB). When connectivity returns, changes sync to the cloud. This ensures the kitchen operates fully independently when the owner is unavailable.
 
 ### Offline Sync & Conflict Resolution
 
@@ -269,14 +271,14 @@ Simple CRUD for managing business clients.
 | Layer | Choice | Rationale |
 |---|---|---|
 | Framework | Next.js 15 (App Router) | SSR for dashboard, PWA for kitchen, API routes for backend — single codebase |
-| Database | PostgreSQL | Relational data, mature, reliable. Hosted on Railway or Supabase |
-| ORM | Prisma | Type-safe queries, migration system, Next.js integration |
+| Database | SQLite (via Turso/libsql) | Embedded DB, zero cost, zero maintenance. Sufficient for ~10 concurrent users. Migrate to PostgreSQL if multi-kitchen scaling needed |
+| ORM | Drizzle ORM | Type-safe queries, SQLite-native, lightweight migration system, better SQLite support than Prisma |
 | Auth | NextAuth.js | Email/password for owner, PIN-based custom provider for workers, role middleware |
 | Real-time | Server-Sent Events (SSE) | One-way kitchen→dashboard updates, simpler than WebSockets, graceful offline fallback |
 | Offline/PWA | next-pwa + Dexie.js (IndexedDB) | Service worker caching + local DB for kitchen station |
 | i18n | next-intl | App Router compatible, supports Hindi/English/Kannada, message bundles |
 | Styling | Tailwind CSS | Rapid development, responsive utilities, easy to build large-button worker UI |
-| Deployment | Vercel (app) + Railway (DB) | Easy deployment, good free tiers to start |
+| Deployment | Single VPS (Hetzner/DigitalOcean, ~$5/mo) | One server, one deploy via Docker Compose, SQLite on local disk. Minimal infra management |
 
 ## Future Phases (Out of Scope)
 
