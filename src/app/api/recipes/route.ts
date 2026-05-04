@@ -1,9 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { db } from '@/db';
+import { db, isDbAvailable } from '@/db';
 import { recipes } from '@/db/schema';
 import { eq } from 'drizzle-orm';
+import { DEMO_RECIPES } from '@/lib/demo-data';
 
 export async function GET() {
+  if (!isDbAvailable()) return NextResponse.json(DEMO_RECIPES);
   const all = await db.query.recipes.findMany({
     orderBy: (r, { desc }) => [desc(r.createdAt)],
   });
@@ -11,6 +13,7 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
+  if (!isDbAvailable()) return NextResponse.json({ error: 'Demo mode' }, { status: 403 });
   const body = await req.json();
   const result = db.insert(recipes).values({
     nameEn: body.nameEn,
@@ -27,6 +30,7 @@ export async function POST(req: NextRequest) {
 }
 
 export async function PUT(req: NextRequest) {
+  if (!isDbAvailable()) return NextResponse.json({ error: 'Demo mode' }, { status: 403 });
   const body = await req.json();
   if (!body.id) return NextResponse.json({ error: 'id required' }, { status: 400 });
   const result = db.update(recipes).set({
@@ -45,6 +49,7 @@ export async function PUT(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
+  if (!isDbAvailable()) return NextResponse.json({ error: 'Demo mode' }, { status: 403 });
   const { searchParams } = new URL(req.url);
   const id = searchParams.get('id');
   if (!id) return NextResponse.json({ error: 'id required' }, { status: 400 });

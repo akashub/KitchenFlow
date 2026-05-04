@@ -1,20 +1,37 @@
-import { drizzle, BetterSQLite3Database } from 'drizzle-orm/better-sqlite3';
-import Database from 'better-sqlite3';
+import type { BetterSQLite3Database } from 'drizzle-orm/better-sqlite3';
 import * as schema from './schema';
 
-let _db: BetterSQLite3Database<typeof schema> | null = null;
+type DbType = BetterSQLite3Database<typeof schema>;
 
-export function getDb() {
-  if (!_db) {
+let _db: DbType | null = null;
+let _unavailable = false;
+
+export function getDb(): DbType | null {
+  if (_db) return _db;
+  if (_unavailable) return null;
+  try {
+    const Database = require('better-sqlite3');
+    const { drizzle } = require('drizzle-orm/better-sqlite3');
     const sqlite = new Database('./data/kitchenflow.db');
     sqlite.pragma('journal_mode = WAL');
-    _db = drizzle(sqlite, { schema });
+    _db = drizzle(sqlite, { schema }) as DbType;
+    return _db;
+  } catch {
+    _unavailable = true;
+    return null;
   }
-  return _db;
 }
 
-export const db = new Proxy({} as BetterSQLite3Database<typeof schema>, {
+export function isDbAvailable(): boolean {
+  if (_db) return true;
+  if (_unavailable) return false;
+  return getDb() !== null;
+}
+
+export const db = new Proxy({} as DbType, {
   get(_, prop) {
-    return (getDb() as any)[prop];
+    const instance = getDb();
+    if (!instance) throw new Error('Database not available');
+    return (instance as any)[prop];
   },
 });

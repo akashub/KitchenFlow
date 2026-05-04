@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation';
 import { auth } from '@/auth';
 import { Sidebar } from '@/components/sidebar';
+import { isDbAvailable } from '@/db';
 
 export default async function AuthenticatedLayout({
   children,
@@ -10,14 +11,19 @@ export default async function AuthenticatedLayout({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const session = await auth();
+  const dbUp = isDbAvailable();
 
-  if (!session?.user) {
-    redirect(`/${locale}/login`);
+  let role = 'owner';
+  let userName = 'Demo';
+
+  if (dbUp) {
+    const session = await auth();
+    if (!session?.user) {
+      redirect(`/${locale}/login`);
+    }
+    role = (session.user as any).role || 'worker';
+    userName = session.user.name || 'User';
   }
-
-  const role = (session.user as any).role || 'worker';
-  const userName = session.user.name || 'User';
 
   return (
     <div className="flex h-screen">

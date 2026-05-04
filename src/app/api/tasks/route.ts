@@ -1,9 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { db } from '@/db';
+import { db, isDbAvailable } from '@/db';
 import { shiftTasks } from '@/db/schema';
 import { eq, and } from 'drizzle-orm';
+import { DEMO_TASKS } from '@/lib/demo-data';
 
 export async function GET(req: NextRequest) {
+  if (!isDbAvailable()) return NextResponse.json(DEMO_TASKS);
   const { searchParams } = new URL(req.url);
   const date = searchParams.get('date');
   const shift = searchParams.get('shift');
@@ -20,6 +22,7 @@ export async function GET(req: NextRequest) {
 }
 
 export async function PUT(req: NextRequest) {
+  if (!isDbAvailable()) return NextResponse.json({ error: 'Demo mode' }, { status: 403 });
   const { id, status } = await req.json();
   if (!id || !status) {
     return NextResponse.json({ error: 'id and status required' }, { status: 400 });

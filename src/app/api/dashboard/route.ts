@@ -1,11 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { db } from '@/db';
+import { db, isDbAvailable } from '@/db';
 import { shiftTasks, dailyMenus, clients, recipes } from '@/db/schema';
 import { eq, and } from 'drizzle-orm';
+import { DEMO_DASHBOARD } from '@/lib/demo-data';
 
 type Alert = { severity: 'critical' | 'warning' | 'info'; message: string };
 
 export async function GET(req: NextRequest) {
+  if (!isDbAvailable()) return NextResponse.json(DEMO_DASHBOARD);
   const { searchParams } = new URL(req.url);
   const date = searchParams.get('date') || new Date().toISOString().split('T')[0];
 

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { db } from '@/db';
+import { db, isDbAvailable } from '@/db';
 import { dailyMenus, shiftTasks, recipes, clients } from '@/db/schema';
 import { eq, and } from 'drizzle-orm';
 
@@ -10,6 +10,7 @@ const MEAL_TO_SHIFT: Record<string, string> = {
 };
 
 export async function POST(req: NextRequest) {
+  if (!isDbAvailable()) return NextResponse.json({ error: 'Demo mode' }, { status: 403 });
   const { date } = await req.json();
   if (!date) return NextResponse.json({ error: 'date required' }, { status: 400 });
 

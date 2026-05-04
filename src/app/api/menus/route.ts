@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { db } from '@/db';
+import { db, isDbAvailable } from '@/db';
 import { dailyMenus } from '@/db/schema';
 import { eq, and } from 'drizzle-orm';
 
 export async function GET(req: NextRequest) {
+  if (!isDbAvailable()) return NextResponse.json([]);
   const { searchParams } = new URL(req.url);
   const date = searchParams.get('date');
   const clientId = searchParams.get('clientId');
@@ -20,6 +21,7 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
+  if (!isDbAvailable()) return NextResponse.json({ error: 'Demo mode' }, { status: 403 });
   const body = await req.json();
   const existing = await db.select().from(dailyMenus).where(
     and(
