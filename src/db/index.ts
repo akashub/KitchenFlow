@@ -23,6 +23,7 @@ export function getDb(): DbType | null {
 }
 
 export function isDbAvailable(): boolean {
+  if (process.env.FORCE_DEMO === '1') return false;
   if (_db) return true;
   if (_unavailable) return false;
   return getDb() !== null;
